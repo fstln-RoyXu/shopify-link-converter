@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Convert Shopify admin theme editor URLs to storefront preview URLs">
+  <title>Shopify Link Converter</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header class="header">
+      <h1>
+        <span>🔗</span>
+        Shopify Link Converter
+      </h1>
+      <p>Convert Shopify admin theme editor URLs to storefront preview URLs</p>
+    </header>
+
+    <!-- Tabs -->
+    <div class="tabs">
+      <button class="tab active" id="singleTab">Single Convert</button>
+      <button class="tab" id="batchTab">Batch Convert</button>
+    </div>
+
+    <!-- Single Mode -->
+    <div class="mode active" id="singleMode">
+      <div class="card">
+        <div class="form-group">
+          <label class="form-label" for="adminUrl">Admin URL</label>
+          <input 
+            type="text" 
+            class="input" 
+            id="adminUrl" 
+            placeholder="https://admin.shopify.com/store/yourstore/themes/123456/editor?previewPath=..."
+            autocomplete="off"
+          >
+        </div>
+
+        <button class="btn" id="convertBtn">
+          Convert
+        </button>
+
+        <!-- Single Result -->
+        <div class="result" id="singleResult">
+          <div class="result-header success">
+            <span class="result-icon">✓</span>
+            <span>Conversion Successful</span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Storefront Preview URL</label>
+            <div class="output-group">
+              <input 
+                type="text" 
+                class="input" 
+                id="storefrontUrl" 
+                readonly
+              >
+              <div class="output-actions">
+                <button class="btn-icon" id="copyBtn" title="Copy to clipboard">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                  </svg>
+                </button>
+                <button class="btn-icon" id="openBtn" title="Open in new tab">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                    <polyline points="15 3 21 3 21 9"></polyline>
+                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="details">
+            <div class="details-title">Conversion Details</div>
+            <div id="conversionDetails">
+              <!-- Details will be populated by JavaScript -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Examples -->
+      <div class="examples">
+        <h3>💡 Quick Examples (Click to try)</h3>
+        <div class="example-list">
+          <a href="#" class="example-link" data-url="https://admin.shopify.com/store/redmagicdev/themes/146505662626/editor">
+            <strong>Theme Editor Homepage</strong>
+            <small>Without previewPath → Converts to store homepage</small>
+          </a>
+          <a href="#" class="example-link" data-url="https://admin.shopify.com/store/redmagicdev/themes/146505662626/editor?previewPath=%2Fproducts%2Fredmagic-11-pro-early-bird-perks">
+            <strong>Product Page</strong>
+            <small>Product: redmagic-11-pro-early-bird-perks</small>
+          </a>
+          <a href="#" class="example-link" data-url="https://admin.shopify.com/store/redmagicdev/themes/146505662626/editor?previewPath=%2Fpages%2F1%3Fview%3Drm-cooling-2026">
+            <strong>Custom Page with View</strong>
+            <small>Page with template view parameter</small>
+          </a>
+          <a href="#" class="example-link" data-url="https://admin.shopify.com/store/redmagicdev/themes/146505662626/editor?previewPath=%2Fcollections%2Ffrontpage">
+            <strong>Collection Page</strong>
+            <small>Collection: frontpage</small>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Batch Mode -->
+    <div class="mode" id="batchMode">
+      <div class="card">
+        <div class="form-group">
+          <label class="form-label" for="batchInput">Admin URLs (one per line)</label>
+          <textarea 
+            class="textarea" 
+            id="batchInput" 
+            placeholder="https://admin.shopify.com/store/yourstore/themes/123456/editor?previewPath=...
+https://admin.shopify.com/store/yourstore/themes/123456/editor?previewPath=...
+https://admin.shopify.com/store/yourstore/themes/123456/editor?previewPath=..."
+          ></textarea>
+        </div>
+
+        <button class="btn" id="batchConvertBtn">
+          Batch Convert
+        </button>
+
+        <!-- Batch Results -->
+        <div class="result" id="batchResult">
+          <div class="result-header success">
+            <span class="result-icon">✓</span>
+            <span>Batch Conversion Complete</span>
+          </div>
+
+          <div class="batch-stats" id="batchStats">
+            <!-- Stats will be populated by JavaScript -->
+          </div>
+
+          <div class="batch-result-list" id="batchResultList">
+            <!-- Results will be populated by JavaScript -->
+          </div>
+
+          <div class="btn-group">
+            <button class="btn btn-secondary" id="copyAllBtn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+              </svg>
+              Copy All URLs
+            </button>
+            <button class="btn btn-secondary" id="downloadCsvBtn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>
+              Download as CSV
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Batch Examples -->
+      <div class="examples">
+        <h3>💡 Batch Convert Tips</h3>
+        <div class="example-list">
+          <div class="example-link" style="cursor: default; pointer-events: none;">
+            <strong>Paste Multiple URLs</strong>
+            <small>Each URL should be on a separate line</small>
+          </div>
+          <div class="example-link" style="cursor: default; pointer-events: none;">
+            <strong>Export Results</strong>
+            <small>Download results as CSV for easy sharing and documentation</small>
+          </div>
+          <div class="example-link" style="cursor: default; pointer-events: none;">
+            <strong>Error Handling</strong>
+            <small>Invalid URLs will be highlighted with error messages</small>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center mt-xl" style="color: var(--text-secondary); font-size: 0.875rem;">
+      <p>Built for Shopify theme developers and operations teams</p>
+    </footer>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/converter.js"></script>
+  <script src="js/ui.js"></script>
+</body>
+</html>
