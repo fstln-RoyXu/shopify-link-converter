@@ -329,6 +329,28 @@ body {
 }
 
 /* ==================== Toast Notifications ==================== */
+
+.tips {
+  margin-top: var(--spacing-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.tip {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md);
+  background: var(--primary-light);
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
+  color: var(--text);
+}
+
+.tip-icon {
+  flex-shrink: 0;
+}
 .toast {
   position: fixed;
   bottom: var(--spacing-xl);
