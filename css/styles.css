@@ -95,58 +95,6 @@ body {
   font-size: 1rem;
 }
 
-/* ==================== Tabs ==================== */
-.tabs {
-  display: flex;
-  gap: var(--spacing-sm);
-  margin-bottom: var(--spacing-xl);
-  border-bottom: 2px solid var(--border);
-}
-
-.tab {
-  padding: var(--spacing-md) var(--spacing-lg);
-  background: none;
-  border: none;
-  border-bottom: 3px solid transparent;
-  color: var(--text-secondary);
-  font-size: 1rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: var(--transition);
-  margin-bottom: -2px;
-}
-
-.tab:hover {
-  color: var(--text);
-  background: var(--bg-secondary);
-}
-
-.tab.active {
-  color: var(--primary);
-  border-bottom-color: var(--primary);
-}
-
-/* ==================== Mode Containers ==================== */
-.mode {
-  display: none;
-}
-
-.mode.active {
-  display: block;
-  animation: fadeIn 0.3s ease;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 /* ==================== Cards ==================== */
 .card {
   background: var(--card);
@@ -317,6 +265,10 @@ body {
   margin-bottom: var(--spacing-lg);
 }
 
+.output-group .input {
+  padding-right: 80px;
+}
+
 .output-actions {
   position: absolute;
   right: var(--spacing-sm);
@@ -374,85 +326,6 @@ body {
 
 .error-text {
   color: var(--error);
-}
-
-/* ==================== Batch Results ==================== */
-.batch-stats {
-  padding: var(--spacing-md);
-  background: var(--bg-secondary);
-  border-radius: var(--radius-md);
-  margin-bottom: var(--spacing-lg);
-  text-align: center;
-}
-
-.batch-result-list {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-md);
-  margin-bottom: var(--spacing-lg);
-  max-height: 500px;
-  overflow-y: auto;
-}
-
-.batch-result-item {
-  background: var(--bg-secondary);
-  border-radius: var(--radius-md);
-  padding: var(--spacing-md);
-  border: 2px solid var(--border);
-}
-
-.batch-result-item.success {
-  border-color: var(--success);
-  background: var(--success-light);
-}
-
-.batch-result-item.error {
-  border-color: var(--error);
-  background: var(--error-light);
-}
-
-.batch-result-header {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-sm);
-  margin-bottom: var(--spacing-sm);
-}
-
-.batch-result-icon {
-  font-weight: bold;
-  font-size: 1.125rem;
-}
-
-.batch-result-item.success .batch-result-icon {
-  color: var(--success);
-}
-
-.batch-result-item.error .batch-result-icon {
-  color: var(--error);
-}
-
-.batch-result-type {
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: var(--text-secondary);
-}
-
-.batch-result-url {
-  display: flex;
-  gap: var(--spacing-sm);
-  align-items: center;
-}
-
-.batch-result-url input {
-  flex: 1;
-  padding: var(--spacing-sm) var(--spacing-md);
-  font-size: 0.875rem;
-}
-
-.batch-result-error {
-  font-size: 0.875rem;
-  color: var(--text);
-  line-height: 1.5;
 }
 
 /* ==================== Examples ==================== */
@@ -569,14 +442,6 @@ body {
     left: var(--spacing-md);
     right: var(--spacing-md);
     bottom: var(--spacing-md);
-  }
-  
-  .batch-result-url {
-    flex-direction: column;
-  }
-  
-  .batch-result-url input {
-    width: 100%;
   }
 }
 

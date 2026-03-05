@@ -18,14 +18,8 @@
       <p>Convert Shopify admin theme editor URLs to storefront preview URLs</p>
     </header>
 
-    <!-- Tabs -->
-    <div class="tabs">
-      <button class="tab active" id="singleTab">Single Convert</button>
-      <button class="tab" id="batchTab">Batch Convert</button>
-    </div>
-
     <!-- Single Mode -->
-    <div class="mode active" id="singleMode">
+    <div id="singleMode">
       <div class="card">
         <div class="form-group">
           <label class="form-label" for="adminUrl">Admin URL</label>
@@ -105,79 +99,6 @@
             <strong>Collection Page</strong>
             <small>Collection: frontpage</small>
           </a>
-        </div>
-      </div>
-    </div>
-
-    <!-- Batch Mode -->
-    <div class="mode" id="batchMode">
-      <div class="card">
-        <div class="form-group">
-          <label class="form-label" for="batchInput">Admin URLs (one per line)</label>
-          <textarea 
-            class="textarea" 
-            id="batchInput" 
-            placeholder="https://admin.shopify.com/store/yourstore/themes/123456/editor?previewPath=...
-https://admin.shopify.com/store/yourstore/themes/123456/editor?previewPath=...
-https://admin.shopify.com/store/yourstore/themes/123456/editor?previewPath=..."
-          ></textarea>
-        </div>
-
-        <button class="btn" id="batchConvertBtn">
-          Batch Convert
-        </button>
-
-        <!-- Batch Results -->
-        <div class="result" id="batchResult">
-          <div class="result-header success">
-            <span class="result-icon">✓</span>
-            <span>Batch Conversion Complete</span>
-          </div>
-
-          <div class="batch-stats" id="batchStats">
-            <!-- Stats will be populated by JavaScript -->
-          </div>
-
-          <div class="batch-result-list" id="batchResultList">
-            <!-- Results will be populated by JavaScript -->
-          </div>
-
-          <div class="btn-group">
-            <button class="btn btn-secondary" id="copyAllBtn">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-              </svg>
-              Copy All URLs
-            </button>
-            <button class="btn btn-secondary" id="downloadCsvBtn">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                <polyline points="7 10 12 15 17 10"></polyline>
-                <line x1="12" y1="15" x2="12" y2="3"></line>
-              </svg>
-              Download as CSV
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Batch Examples -->
-      <div class="examples">
-        <h3>💡 Batch Convert Tips</h3>
-        <div class="example-list">
-          <div class="example-link" style="cursor: default; pointer-events: none;">
-            <strong>Paste Multiple URLs</strong>
-            <small>Each URL should be on a separate line</small>
-          </div>
-          <div class="example-link" style="cursor: default; pointer-events: none;">
-            <strong>Export Results</strong>
-            <small>Download results as CSV for easy sharing and documentation</small>
-          </div>
-          <div class="example-link" style="cursor: default; pointer-events: none;">
-            <strong>Error Handling</strong>
-            <small>Invalid URLs will be highlighted with error messages</small>
-          </div>
         </div>
       </div>
     </div>

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>功能测试 - Shopify Link Converter</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    .test-case {
+      background: white;
+      padding: 20px;
+      margin: 20px 0;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .test-result {
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 12px;
+    }
+    .success {
+      background: #d1fae5;
+      color: #065f46;
+    }
+    .error {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+    h1 { color: #1f2937; }
+    h3 { color: #374151; margin-bottom: 10px; }
+    button {
+      background: #3b82f6;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    button:hover {
+      background: #2563eb;
+    }
+  </style>
+</head>
+<body>
+  <h1>🧪 Shopify Link Converter - 功能测试</h1>
+  
+  <div class="test-case">
+    <h3>测试 1: 转换带 previewPath 的 URL</h3>
+    <p><strong>输入:</strong> https://admin.shopify.com/store/redmagicdev/themes/146505662626/editor?previewPath=%2Fproducts%2Fredmagic-11-pro</p>
+    <button onclick="runTest1()">运行测试</button>
+    <div id="result1" class="test-result" style="display:none;"></div>
+  </div>
+
+  <div class="test-case">
+    <h3>测试 2: 转换不带 previewPath 的 URL (首页)</h3>
+    <p><strong>输入:</strong> https://admin.shopify.com/store/redmagicdev/themes/146505662626/editor</p>
+    <button onclick="runTest2()">运行测试</button>
+    <div id="result2" class="test-result" style="display:none;"></div>
+  </div>
+
+  <div class="test-case">
+    <h3>测试 3: 转换带 view 参数的 URL</h3>
+    <p><strong>输入:</strong> https://admin.shopify.com/store/redmagicdev/themes/146505662626/editor?previewPath=%2Fpages%2F1%3Fview%3Drm-cooling-2026</p>
+    <button onclick="runTest3()">运行测试</button>
+    <div id="result3" class="test-result" style="display:none;"></div>
+  </div>
+
+  <div class="test-case">
+    <h3>测试 4: 无效 URL 测试</h3>
+    <p><strong>输入:</strong> https://google.com</p>
+    <button onclick="runTest4()">运行测试</button>
+    <div id="result4" class="test-result" style="display:none;"></div>
+  </div>
+
+  <div class="test-case">
+    <h3>测试 5: 验证 Batch 功能已被移除</h3>
+    <p>检查是否还存在批量转换相关的方法</p>
+    <button onclick="runTest5()">运行测试</button>
+    <div id="result5" class="test-result" style="display:none;"></div>
+  </div>
+
+  <script src="js/converter.js"></script>
+  <script>
+    const converter = new ShopifyLinkConverter();
+
+    function runTest1() {
+      const result = converter.convert('https://admin.shopify.com/store/redmagicdev/themes/146505662626/editor?previewPath=%2Fproducts%2Fredmagic-11-pro');
+      const div = document.getElementById('result1');
+      div.style.display = 'block';
+      
+      if (result.success && result.storefrontUrl === 'https://redmagicdev.myshopify.com/products/redmagic-11-pro?preview_theme_id=146505662626') {
+        div.className = 'test-result success';
+        div.innerHTML = `✅ 测试通过！<br>输出: ${result.storefrontUrl}<br>页面类型: ${result.details.pageType}`;
+      } else {
+        div.className = 'test-result error';
+        div.innerHTML = `❌ 测试失败！<br>${JSON.stringify(result, null, 2)}`;
+      }
+    }
+
+    function runTest2() {
+      const result = converter.convert('https://admin.shopify.com/store/redmagicdev/themes/146505662626/editor');
+      const div = document.getElementById('result2');
+      div.style.display = 'block';
+      
+      if (result.success && result.storefrontUrl === 'https://redmagicdev.myshopify.com/?preview_theme_id=146505662626') {
+        div.className = 'test-result success';
+        div.innerHTML = `✅ 测试通过！<br>输出: ${result.storefrontUrl}<br>页面类型: ${result.details.pageType}`;
+      } else {
+        div.className = 'test-result error';
+        div.innerHTML = `❌ 测试失败！<br>${JSON.stringify(result, null, 2)}`;
+      }
+    }
+
+    function runTest3() {
+      const result = converter.convert('https://admin.shopify.com/store/redmagicdev/themes/146505662626/editor?previewPath=%2Fpages%2F1%3Fview%3Drm-cooling-2026');
+      const div = document.getElementById('result3');
+      div.style.display = 'block';
+      
+      if (result.success && result.storefrontUrl.includes('view=rm-cooling-2026')) {
+        div.className = 'test-result success';
+        div.innerHTML = `✅ 测试通过！<br>输出: ${result.storefrontUrl}<br>View 参数: ${result.details.view}`;
+      } else {
+        div.className = 'test-result error';
+        div.innerHTML = `❌ 测试失败！<br>${JSON.stringify(result, null, 2)}`;
+      }
+    }
+
+    function runTest4() {
+      const result = converter.convert('https://google.com');
+      const div = document.getElementById('result4');
+      div.style.display = 'block';
+      
+      if (!result.success && result.error) {
+        div.className = 'test-result success';
+        div.innerHTML = `✅ 测试通过！正确识别无效 URL<br>错误信息: ${result.error}`;
+      } else {
+        div.className = 'test-result error';
+        div.innerHTML = `❌ 测试失败！应该返回错误`;
+      }
+    }
+
+    function runTest5() {
+      const div = document.getElementById('result5');
+      div.style.display = 'block';
+      
+      const hasBatchConvert = typeof converter.batchConvert === 'function';
+      const hasExportToCSV = typeof converter.exportToCSV === 'function';
+      const hasDownloadCSV = typeof converter.downloadCSV === 'function';
+      
+      if (!hasBatchConvert && !hasExportToCSV && !hasDownloadCSV) {
+        div.className = 'test-result success';
+        div.innerHTML = `✅ 测试通过！所有批量转换方法已被成功移除<br>
+          - batchConvert: ${hasBatchConvert ? '存在 ❌' : '已移除 ✅'}<br>
+          - exportToCSV: ${hasExportToCSV ? '存在 ❌' : '已移除 ✅'}<br>
+          - downloadCSV: ${hasDownloadCSV ? '存在 ❌' : '已移除 ✅'}`;
+      } else {
+        div.className = 'test-result error';
+        div.innerHTML = `❌ 测试失败！仍存在批量转换方法<br>
+          - batchConvert: ${hasBatchConvert ? '存在 ❌' : '已移除 ✅'}<br>
+          - exportToCSV: ${hasExportToCSV ? '存在 ❌' : '已移除 ✅'}<br>
+          - downloadCSV: ${hasDownloadCSV ? '存在 ❌' : '已移除 ✅'}`;
+      }
+    }
+  </script>
+</body>
+</html>
