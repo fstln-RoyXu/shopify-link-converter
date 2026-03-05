@@ -8,7 +8,6 @@ class ConverterUI {
     
     this.initElements();
     this.initEventListeners();
-    this.initExamples();
   }
 
   /**
@@ -23,9 +22,6 @@ class ConverterUI {
     this.conversionDetails = document.getElementById('conversionDetails');
     this.copyBtn = document.getElementById('copyBtn');
     this.openBtn = document.getElementById('openBtn');
-    
-    // Examples
-    this.exampleLinks = document.querySelectorAll('.example-link');
   }
 
   /**
@@ -40,21 +36,6 @@ class ConverterUI {
     this.adminUrlInput.addEventListener('input', () => this.clearSingleResult());
     this.copyBtn.addEventListener('click', () => this.copySingleResult());
     this.openBtn.addEventListener('click', () => this.openSingleResult());
-  }
-
-  /**
-   * Initialize example links
-   */
-  initExamples() {
-    this.exampleLinks.forEach(link => {
-      link.addEventListener('click', (e) => {
-        e.preventDefault();
-        const exampleUrl = link.dataset.url;
-        this.adminUrlInput.value = exampleUrl;
-        this.handleSingleConvert();
-        this.adminUrlInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      });
-    });
   }
 
   /**

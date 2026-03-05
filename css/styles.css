@@ -328,56 +328,6 @@ body {
   color: var(--error);
 }
 
-/* ==================== Examples ==================== */
-.examples {
-  background: var(--bg-secondary);
-  border-radius: var(--radius-lg);
-  padding: var(--spacing-lg);
-  margin-top: var(--spacing-2xl);
-}
-
-.examples h3 {
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--text);
-  margin-bottom: var(--spacing-md);
-}
-
-.example-list {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-sm);
-}
-
-.example-link {
-  padding: var(--spacing-md);
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  color: var(--text);
-  text-decoration: none;
-  transition: var(--transition);
-  display: block;
-}
-
-.example-link:hover {
-  border-color: var(--primary);
-  background: var(--primary-light);
-  transform: translateX(4px);
-}
-
-.example-link strong {
-  display: block;
-  color: var(--text);
-  margin-bottom: var(--spacing-xs);
-}
-
-.example-link small {
-  color: var(--text-secondary);
-  font-size: 0.75rem;
-  font-family: 'SF Mono', Monaco, monospace;
-}
-
 /* ==================== Toast Notifications ==================== */
 .toast {
   position: fixed;
