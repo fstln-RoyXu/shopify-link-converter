@@ -8,6 +8,60 @@ class ConverterUI {
     
     this.initElements();
     this.initEventListeners();
+    this.loadLastConversion();
+  }
+
+  /**
+   * Get cookie value by name
+   * @param {string} name - Cookie name
+   * @returns {string|null} Cookie value or null if not found
+   */
+  getCookie(name) {
+    const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+    return match ? decodeURIComponent(match[2]) : null;
+  }
+
+  /**
+   * Set cookie with name, value, and expiration in days
+   * @param {string} name - Cookie name
+   * @param {string} value - Cookie value
+   * @param {number} days - Expiration in days (default 30)
+   */
+  setCookie(name, value, days = 30) {
+    const expires = new Date(Date.now() + days * 24 * 60 * 60 * 1000).toUTCString();
+    document.cookie = `${name}=${encodeURIComponent(value)};expires=${expires};path=/`;
+  }
+
+  /**
+   * Delete cookie by name
+   * @param {string} name - Cookie name
+   */
+  deleteCookie(name) {
+    document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/`;
+  }
+
+  /**
+   * Save last successful conversion to cookie
+   * @param {string} adminUrl - The admin URL that was successfully converted
+   */
+  saveLastConversion(adminUrl) {
+    this.setCookie('lastShopifyConversion', adminUrl);
+  }
+
+  /**
+   * Load last conversion from cookie and auto-populate/convert if exists
+   */
+  loadLastConversion() {
+    const lastUrl = this.getCookie('lastShopifyConversion');
+    if (lastUrl) {
+      // Populate the input field
+      this.adminUrlInput.value = lastUrl;
+      
+      // Auto-convert after a short delay to ensure DOM is ready
+      setTimeout(() => {
+        this.handleSingleConvert();
+      }, 300);
+    }
   }
 
   /**
@@ -38,15 +92,15 @@ class ConverterUI {
     this.openBtn.addEventListener('click', () => this.openSingleResult());
   }
 
-  /**
-   * Handle single URL conversion
-   */
-  handleSingleConvert() {
+/**
+ * Handle single URL conversion
+ */
+handleSingleConvert() {
     const adminUrl = this.adminUrlInput.value.trim();
     
     if (!adminUrl) {
-      this.showError('Please enter a URL');
-      return;
+        this.showError('Please enter a URL');
+        return;
     }
     
     // Show loading state
@@ -55,14 +109,19 @@ class ConverterUI {
     
     // Small delay for UX
     setTimeout(() => {
-      const result = this.converter.convert(adminUrl);
-      this.displaySingleResult(result);
-      
-      // Reset button
-      this.convertBtn.disabled = false;
-      this.convertBtn.textContent = 'Convert';
+        const result = this.converter.convert(adminUrl);
+        this.displaySingleResult(result);
+        
+        // Save successful conversion to cookie
+        if (result.success) {
+            this.saveLastConversion(adminUrl);
+        }
+        
+        // Reset button
+        this.convertBtn.disabled = false;
+        this.convertBtn.textContent = 'Convert';
     }, 200);
-  }
+}
 
   /**
    * Display single conversion result
