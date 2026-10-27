@@ -88,6 +88,10 @@ class ConverterUI {
       if (e.key === 'Enter') this.handleSingleConvert();
     });
     this.adminUrlInput.addEventListener('input', () => this.clearSingleResult());
+    this.adminUrlInput.addEventListener('paste', () => {
+      // Wait for the browser to insert pasted text before reading the input.
+      setTimeout(() => this.handleSingleConvert(), 0);
+    });
     this.copyBtn.addEventListener('click', () => this.copySingleResult());
     this.openBtn.addEventListener('click', () => this.openSingleResult());
   }
