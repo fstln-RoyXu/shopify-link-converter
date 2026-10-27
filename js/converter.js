@@ -19,7 +19,7 @@ class ShopifyLinkConverter {
       adminUrl = adminUrl.trim();
       
       if (!adminUrl) {
-        throw new Error('URL cannot be empty');
+        throw new Error('链接不能为空');
       }
 
       // Parse the URL
@@ -27,18 +27,18 @@ class ShopifyLinkConverter {
       try {
         url = new URL(adminUrl);
       } catch (e) {
-        throw new Error('Invalid URL format');
+        throw new Error('链接格式无效');
       }
 
       // Validate it's a Shopify admin URL
       if (!url.hostname.includes('admin.shopify.com')) {
-        throw new Error('Not a Shopify admin URL');
+        throw new Error('请输入 Shopify 后台链接');
       }
 
       // Extract store name and theme ID from path
       const match = url.pathname.match(this.urlPattern);
       if (!match) {
-        throw new Error('Invalid Shopify admin URL format. Expected: admin.shopify.com/store/{store}/themes/{theme_id}/...');
+        throw new Error('Shopify 后台链接格式无效，应为：admin.shopify.com/store/{store}/themes/{theme_id}/...');
       }
 
       const [, store, themeId] = match;

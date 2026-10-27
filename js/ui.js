@@ -73,7 +73,7 @@ class ConverterUI {
     this.convertBtn = document.getElementById('convertBtn');
     this.singleResult = document.getElementById('singleResult');
     this.storefrontUrlOutput = document.getElementById('storefrontUrl');
-    this.conversionDetails = document.getElementById('conversionDetails');
+    this.conversionError = document.getElementById('conversionError');
     this.copyBtn = document.getElementById('copyBtn');
     this.openBtn = document.getElementById('openBtn');
   }
@@ -103,13 +103,13 @@ handleSingleConvert() {
     const adminUrl = this.adminUrlInput.value.trim();
     
     if (!adminUrl) {
-        this.showError('Please enter a URL');
+        this.showError('请输入链接');
         return;
     }
     
     // Show loading state
     this.convertBtn.disabled = true;
-    this.convertBtn.textContent = 'Converting...';
+    this.convertBtn.textContent = '转换中…';
     
     // Small delay for UX
     setTimeout(() => {
@@ -123,7 +123,7 @@ handleSingleConvert() {
         
         // Reset button
         this.convertBtn.disabled = false;
-        this.convertBtn.textContent = 'Convert';
+        this.convertBtn.textContent = '转换';
     }, 200);
 }
 
@@ -131,47 +131,20 @@ handleSingleConvert() {
    * Display single conversion result
    */
   displaySingleResult(result) {
+    this.conversionError.hidden = result.success;
+    this.conversionError.textContent = result.success ? '' : result.error;
     if (result.success) {
       this.singleResult.classList.add('active', 'success');
       this.singleResult.classList.remove('error');
       
       this.storefrontUrlOutput.value = result.storefrontUrl;
       
-      // Display details
-      const { store, themeId, pageType, view } = result.details;
-      this.conversionDetails.innerHTML = `
-        <div class="detail-item">
-          <span class="detail-label">Store:</span>
-          <span class="detail-value">${store}</span>
-        </div>
-        <div class="detail-item">
-          <span class="detail-label">Theme ID:</span>
-          <span class="detail-value">${themeId}</span>
-        </div>
-        <div class="detail-item">
-          <span class="detail-label">Page Type:</span>
-          <span class="detail-value">${pageType}</span>
-        </div>
-        ${view ? `
-        <div class="detail-item">
-          <span class="detail-label">View:</span>
-          <span class="detail-value">${view}</span>
-        </div>
-        ` : ''}
-      `;
-      
-      this.showToast('Conversion successful!', 'success');
+      this.showToast('转换成功！', 'success');
     } else {
       this.singleResult.classList.add('active', 'error');
       this.singleResult.classList.remove('success');
       
       this.storefrontUrlOutput.value = '';
-      this.conversionDetails.innerHTML = `
-        <div class="error-message">
-          <strong>Error:</strong> ${result.error}
-        </div>
-      `;
-      
       this.showToast(result.error, 'error');
     }
   }
@@ -190,7 +163,7 @@ handleSingleConvert() {
     const url = this.storefrontUrlOutput.value;
     if (url) {
       this.copyToClipboard(url);
-      this.showToast('Copied to clipboard!', 'success');
+      this.showToast('链接已复制！', 'success');
     }
   }
 
@@ -201,7 +174,7 @@ handleSingleConvert() {
     const url = this.storefrontUrlOutput.value;
     if (url) {
       window.open(url, '_blank');
-      this.showToast('Opening preview...', 'info');
+      this.showToast('正在打开预览…', 'info');
     }
   }
 
