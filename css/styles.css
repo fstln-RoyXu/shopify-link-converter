@@ -245,7 +245,8 @@ body {
   animation: slideIn 0.3s ease;
 }
 
-.result.error .result-header.success {
+.result.error .result-header.success,
+.result.error .preview-output {
   display: none;
 }
 
